@@ -9,6 +9,8 @@ use App\Entity\Category;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 #[ORM\Table(name:"jobs")]
+#[ORM\HasLifecycleCallbacks()]
+
 class Job
 {
     #[ORM\Id]
@@ -365,5 +367,18 @@ class Job
         $this->category = $category;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+    
+    #[ORM\PreUpdate]
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
     }
 }

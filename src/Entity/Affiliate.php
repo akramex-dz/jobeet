@@ -176,4 +176,10 @@ class Affiliate
 
         return $this;
     }
+
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+        $this->createdAt = new \DateTime();
+    }
 }
