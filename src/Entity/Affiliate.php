@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Table;
+
 
 #[ORM\Entity(repositoryClass: AffiliateRepository::class)]
 #[ORM\Table(name:"affiliates")]
@@ -37,85 +37,126 @@ class Affiliate
     #[ORM\JoinTable(name:"affiiates_categories")]
     private Collection|null $categories;
 
+    /*
+     * When a new entity instance is created and the ManyToMany or OneToMany relationship property is not initialized,
+     * an error may occur when trying to manipulate the uninitialized property.
+     * creating a constructor function, it ensure ensure that all the properties are properly initialized when a new instance is created, including ManyToMany and OneToMany relationships.
+     */
     public function __construct()
     {
         $this->categories = new ArrayCollection();
     }
 
-    public function getId(): ?int
+   /**
+     * @return int
+     */
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    public function getUrl(): ?string
+    /**
+     * @return string
+     */
+    public function getUrl() : ?string
     {
         return $this->url;
     }
 
-    public function setUrl(string $url): self
+    /**
+     * @param string $url
+     *
+     * @return self
+     */
+    public function setUrl(string $url) : self
     {
         $this->url = $url;
 
         return $this;
     }
 
-    public function getEmail(): ?string
+    /**
+     * @return string
+     */
+    public function getEmail() : ?string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    /**
+     * @param string $email
+     *
+     * @return self
+     */
+    public function setEmail(string $email) : self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getToken(): ?string
+    /**
+     * @return string
+     */
+    public function getToken() : ?string
     {
         return $this->token;
     }
 
-    public function setToken(string $token): self
+    /**
+     * @param string|null $token
+     *
+     * @return self
+     */
+    public function setToken(?string $token) : self
     {
         $this->token = $token;
 
         return $this;
     }
 
-    public function isActive(): ?bool
+    /**
+     * @return bool
+     */
+    public function isActive() : ?bool
     {
         return $this->active;
     }
 
-    public function setActive(bool $active): self
+    /**
+     * @param bool $active
+     *
+     * @return self
+     */
+    public function setActive(bool $active) : self
     {
         $this->active = $active;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt() : ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Category>
+     * @return Category[]|ArrayCollection
      */
-    public function getCategories(): Collection
+    public function getCategories()
     {
         return $this->categories;
     }
 
-    public function addCategory(Category $category): self
+    /**
+     * @param Category $category
+     *
+     * @return self
+     */
+    public function addCategory(Category $category) : self
     {
         if (!$this->categories->contains($category)) {
             $this->categories->add($category);
@@ -124,7 +165,12 @@ class Affiliate
         return $this;
     }
 
-    public function removeCategory(Category $category): self
+    /**
+     * @param Category $category
+     *
+     * @return self
+     */
+    public function removeCategory(Category $category) : self
     {
         $this->categories->removeElement($category);
 

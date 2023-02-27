@@ -6,7 +6,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Table;
+
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name:"categories")]
@@ -34,21 +34,41 @@ class Category
     #[ORM\ManyToMany(targetEntity: Affiliate::class, mappedBy: 'categories')]
     private Collection|null $affiliates;
 
+    /*
+     * When a new entity instance is created and the ManyToMany or OneToMany relationship property is not initialized,
+     * an error may occur when trying to manipulate the uninitialized property.
+     * creating a constructor function, it ensure ensure that all the properties are properly initialized when a new instance is created, including ManyToMany and OneToMany relationships.
+     */
+
+     
     public function __construct()
     {
         $this->affiliates = new ArrayCollection();
+        $this->jobs = new ArrayCollection();
     }
 
+
+    /**
+     * @return int
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
+    /**
+     * @return string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * 
+     * @return self
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -64,22 +84,62 @@ class Category
         return $this->affiliates; 
     }
 
+    /**
+     * @param Affiliate $affiliate
+     *
+     * @return self
+     */
     public function addAffiliate(Affiliate $affiliate): self
     {
         if (!$this->affiliates->contains($affiliate)) {
             $this->affiliates->add($affiliate);
-            $affiliate->addCategory($this);
         }
 
         return $this;
     }
 
+    /**
+     * @param Affiliate $affiliate
+     *
+     * @return self
+     */
     public function removeAffiliate(Affiliate $affiliate): self
     {
-        if ($this->affiliates->removeElement($affiliate)) {
-            $affiliate->removeCategory($this);
-        }
+        $this->affiliates->removeElement($affiliate);
 
         return $this;
     }
+
+	/**
+	 * @return Collection<int, Job>
+	 */
+	public function getJobs(): Collection
+    {
+		return $this->jobs;
+	}
+	
+	/**
+	 * @param Job $job 
+     * 
+	 * @return self
+	 */
+	public function addJob(Job $job): self 
+    {
+		if (!$this->jobs->contains($job)) {
+            $this->jobs->add($job);
+        }
+		return $this;
+	}
+
+    /**
+	 * @param Job $job 
+     * 
+	 * @return self
+	 */
+	public function removeJob(Job $job): self 
+    {
+        $this->jobs->removeElement($job);
+
+		return $this;
+	}
 }
