@@ -7,22 +7,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
+
 /**
- * @Route("Job")
+ * @Route("/")
  */
 class JobController extends AbstractController
 {    
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * Lists all job entities.
      * 
-     * @Route ("/", name="job.list")
+     * @Route ("", name="job.list", methods = "GET")
      * 
      * @return Response 
      */
-    public function list(EntityManagerInterface $entityManager) : Response
+    public function list() : Response
     {
-        $jobRepository = $entityManager->getRepository(Job::class);
-        $jobs = $jobRepository->findAll();
+        $jobs = $this->entityManager->getRepository(Job::class)->findAll();
         return $this->render('job/list.html.twig', [
             'jobs'=>$jobs
         ]);
@@ -31,12 +37,12 @@ class JobController extends AbstractController
     /**
      * Finds and displays a job entity.
      * 
-     * @Route("/{id}", name="job.show")
+     * @Route("job/{id<\d+>}", name="job.show", methods="GET")
      * 
      * @param Job $job
      * 
      * @return Response
-     */
+     */ 
     public function show(Job $job)  : Response
     {
         return $this->render('job/show.html.twig',[
