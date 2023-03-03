@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Job;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,6 +40,41 @@ class JobRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @param int|null $categoryId
+     * 
+     * return Job[]
+     */
+    public function findActiveJobs(int $categoryId = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('j')
+                            ->where('j.expiresAt > :date')
+                            ->setParameter('date', new DateTime())
+                            ->orderBy('j.expiresAt', 'DESC');
+        if ($categoryId) {
+            $queryBuilder->andWhere('j.category = :categoryId')
+            ->setParameter('categoryId', $categoryId);
+        }
+        
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    /**
+     * @param int $jobId
+     * 
+     * @return Job|null
+     */
+    public function findActiveJob (int $jobId) : ?Job
+    {
+        return $this->createQueryBuilder('j')
+            ->select('j')
+            ->Where('j.id = :jobId')
+            ->andWhere('j.expiresAt > :date')
+            ->setParameter('jobId', $jobId)
+            ->setParameter('date',new DateTime())
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 //    /**
 //     * @return Job[] Returns an array of Job objects
 //     */

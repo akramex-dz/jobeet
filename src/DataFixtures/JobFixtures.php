@@ -48,8 +48,41 @@ class JobFixtures extends Fixture implements DependentFixtureInterface
         $jobExtremeSensio->setEmail('job@example.com');
         $jobExtremeSensio->setExpiresAt(new \DateTime('+30 days'));
 
+        $jobExpired = new Job();
+        $jobExpired->setCategory($this->getReference('category-programming'));
+        $jobExpired->setType('full-time');
+        $jobExpired->setCompany('Sensio Labs');
+        $jobExpired->setLogo('sensio-labs.gif');
+        $jobExpired->setUrl('http://www.sensiolabs.com/');
+        $jobExpired->setPosition('Web Developer Expired');
+        $jobExpired->setLocation('Paris, France');
+        $jobExpired->setDescription('Lorem ipsum dolor sit amet, consectetur adipisicing elit.');
+        $jobExpired->setHowToApply('Send your resume to lorem.ipsum [at] dolor.sit');
+        $jobExpired->setPublic(true);
+        $jobExpired->setActivated(true);
+        $jobExpired->setToken('job_expired');
+        $jobExpired->setEmail('job@example.com');
+        $jobExpired->setExpiresAt(new \DateTime('-10 days'));
+
+        $manager->persist($jobExpired);
         $manager->persist($jobSensioLabs);
         $manager->persist($jobExtremeSensio);
+        for ($i = 100; $i <= 130; $i++) {
+            $job = new Job();
+            $job->setCategory($this->getReference('category-programming'));
+            $job->setType('full-time');
+            $job->setCompany('Company ' . $i);
+            $job->setPosition('Web Developer');
+            $job->setLocation('Paris, France');
+            $job->setDescription('Lorem ipsum dolor sit amet, consectetur adipisicing elit.');
+            $job->setHowToApply('Send your resume to lorem.ipsum [at] dolor.sit');
+            $job->setPublic(true);
+            $job->setActivated(true);
+            $job->setToken('job_' . $i);
+            $job->setEmail('job@example.com');
+    
+            $manager->persist($job);
+        }
 
         $manager->flush();
     }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Category;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,6 +40,19 @@ class CategoryRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Category[]
+     */
+    public function findWithActiveCategory()
+    {
+        return $this->createQueryBuilder('c')
+                    ->select('c')
+                    ->innerJoin('c.jobs','j')
+                    ->where('j.expiresAt > :date')
+                    ->setParameter('date',new DateTime())
+                    ->getQuery()
+                    ->getResult();
+    }
 //    /**
 //     * @return Category[] Returns an array of Category objects
 //     */

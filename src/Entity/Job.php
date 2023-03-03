@@ -374,6 +374,9 @@ class Job
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        if (!$this->expiresAt) {
+            $this->expiresAt = (clone $this->createdAt)->modify('+30 days');
+        }
     }
     
     #[ORM\PreUpdate]

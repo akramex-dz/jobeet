@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -142,4 +143,16 @@ class Category
 
 		return $this;
 	}
+
+    /**
+     * @return Job[]|ArrayCollection
+     */
+    public function getActiveJobs()
+    {
+        return $this->jobs->filter(function(Job $job)
+        {
+            return $job->getExpiresAt()> new DateTime();
+        });
+    }
+    
 }
