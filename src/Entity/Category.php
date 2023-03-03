@@ -7,7 +7,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name:"categories")]
@@ -20,6 +20,28 @@ class Category
 
     #[ORM\Column(length: 100)]
     private ?string $name = null;
+
+     /**
+     * @Gedmo\Slug(fields={"name"})
+     */
+    #[ORM\Column(length:128,unique:true)]
+    private ?string $slug;
+
+    /**
+     * @return string|null
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     */
+    public function setSlug(string $slug)
+    {
+        $this->name = $slug;
+    }    
 
     /**
      * one category has many job announcements
