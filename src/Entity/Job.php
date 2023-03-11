@@ -6,6 +6,7 @@ use App\Repository\JobRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Category;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 #[ORM\Table(name:"jobs")]
@@ -13,6 +14,16 @@ use App\Entity\Category;
 
 class Job
 {
+    public const FULL_TIME_TYPE = 'full-time';
+    public const PART_TIME_TYPE = 'part-time';
+    public const FREELANCE_TYPE = 'freelance';
+
+    public const TYPES = [
+        self::FULL_TIME_TYPE,
+        self::PART_TIME_TYPE,
+        self::FREELANCE_TYPE,
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -25,7 +36,7 @@ class Job
     private ?string $company = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $logo = null;
+    private ?UploadedFile $logo = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $url = null;
@@ -116,7 +127,7 @@ class Job
     }
 
     /**
-     * @return string|null
+     * @return string|null|UploadedFile
      */
     public function getLogo(): ?string
     {
@@ -124,11 +135,11 @@ class Job
     }
 
     /**
-     * @param string|null $logo
+     * @param string|null|UploadedFile $logo
      *
      * @return self
      */
-    public function setLogo(?string $logo): self
+    public function setLogo($logo): self
     {
         $this->logo = $logo;
 
