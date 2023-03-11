@@ -36,7 +36,7 @@ class Job
     private ?string $company = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?UploadedFile $logo = null;
+    private mixed $logo = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $url = null;
@@ -127,15 +127,15 @@ class Job
     }
 
     /**
-     * @return string|null|UploadedFile
+     * @return mixed
      */
-    public function getLogo(): ?string
+    public function getLogo(): mixed
     {
         return $this->logo;
     }
 
     /**
-     * @param string|null|UploadedFile $logo
+     * @param mixed $logo
      *
      * @return self
      */

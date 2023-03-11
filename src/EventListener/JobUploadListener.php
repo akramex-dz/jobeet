@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File as f;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class JobUploadListener
 {
     /** @var FileUploader */
@@ -69,9 +68,7 @@ class JobUploadListener
     public function postLoad(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
-        echo "inside post load :";
-        var_dump($entity->getLogo());
-        echo '||';
+        
         $this->stringToFile($entity);
     }
 
