@@ -107,9 +107,6 @@ class JobController extends AbstractController
      */
     public function edit (Request $request, Job $job, EntityManagerInterface $em) : Response 
     {
-            echo ' job.edit Controller';
-            var_dump($job->getLogo());
-            echo '||';
             $form = $this->createForm(JobType::class, $job);
             $form->handleRequest($request);
 

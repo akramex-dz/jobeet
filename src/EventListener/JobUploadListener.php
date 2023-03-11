@@ -82,10 +82,7 @@ class JobUploadListener
         }
 
         if ($fileName = $entity->getLogo()) {
-            $entity->setLogo(new f($this->uploader->getTargetDirectory().'/'.$fileName));      
-            echo 'inside stringToFile after conversion :';
-            var_dump($entity->getLogo());      
-            echo '||';
+            $entity->setLogo(new f($this->uploader->getTargetDirectory().'/'.$fileName));
         }
     }
 
