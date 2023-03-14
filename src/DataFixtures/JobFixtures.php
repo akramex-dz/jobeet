@@ -59,7 +59,7 @@ class JobFixtures extends Fixture implements DependentFixtureInterface
         $jobExpired->setDescription('Lorem ipsum dolor sit amet, consectetur adipisicing elit.');
         $jobExpired->setHowToApply('Send your resume to lorem.ipsum [at] dolor.sit');
         $jobExpired->setPublic(true);
-        $jobExpired->setActivated(true);
+        $jobExpired->setActivated(false);
         $jobExpired->setToken('job_expired');
         $jobExpired->setEmail('job@example.com');
         $jobExpired->setExpiresAt(new \DateTime('-10 days'));

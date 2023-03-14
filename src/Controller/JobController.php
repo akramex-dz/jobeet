@@ -8,13 +8,15 @@ use App\Form\JobType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Service\FileUploader;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 /**
  * @Route("/")
  */
@@ -50,7 +52,7 @@ class JobController extends AbstractController
      */ 
     public function show(Job $job)  : Response
     {
-        dump($job->getToken());
+        dd($job->getToken());
         return $this->render('job/show.html.twig',[
             'job'=>$job,
         ]);
@@ -138,31 +140,14 @@ class JobController extends AbstractController
             'job'=>$job,
             'hasControlAccess' => true,
             'deleteForm' => $deleteForm->createView(),
-            'publishForm' => $publishForm->createView(),
+            'publishForm' => $publishForm->createView()
         ]);
     }
-
-    /**
-     * Creates a form to delete a job entity.
-     * 
-     * @param Job $job
-     * 
-     * @return Form
-     */
-    public function createDeleteForm(Job $job) : Form
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('job.delete', [
-                'token' => $job->getToken()
-            ]))
-            ->setMethod('DELETE')
-            ->getForm();
-     }
-
+    
     /**
      * Delete a job entity.
      *
-     * @Route("job/{token}/delete", name="job.delete", methods={"DELETE", "POST"}, requirements={"token" = "\w+"})
+     * @Route("job/{token}/delete", name="job.delete", methods="POST", requirements={"token" = "\w+"})
      *
      * @param Request $request
      * @param Job $job
@@ -174,17 +159,30 @@ class JobController extends AbstractController
     {
         $form = $this->createDeleteForm($job);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        // if ($form->isSubmitted() && $form->isValid()) {
             $em->remove($job);
             $em->flush();
-        }            $em->remove($job);
-        $em->flush();
-                                    
+        // }
+
         return $this->redirectToRoute('job.list');
     }
 
-        /**
+    /**
+     * Creates a form to delete a job entity.
+     *
+     * @param Job $job
+     *
+     * @return FormInterface
+     */
+    private function createDeleteForm(Job $job) : FormInterface
+    {
+        return $this->createFormBuilder($job)
+            ->setAction($this->generateUrl('job.delete', ['token' => $job->getToken()]))
+            ->setMethod('DELETE')
+            ->getForm();
+    }
+
+    /**
      * Publish a job entity.
      *
      * @Route("job/{token}/publish", name="job.publish", methods="POST", requirements={"token" = "\w+"})
@@ -200,19 +198,18 @@ class JobController extends AbstractController
         $form = $this->createPublishForm($job);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        // if ($form->isSubmitted() && $form->isValid()) {
             $job->setActivated(true);
 
             $em->flush();
 
             $this->addFlash('notice', 'Your job was published');
-        }
+        // }
 
         return $this->redirectToRoute('job.preview', [
             'token' => $job->getToken(),
         ]);
     }
-
 
     /**
      * Creates a form to publish a job entity.

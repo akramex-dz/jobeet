@@ -50,9 +50,12 @@ class JobRepository extends ServiceEntityRepository
     public function findActiveJobs(int $categoryId = null)
     {
         $queryBuilder = $this->createQueryBuilder('j')
-                            ->where('j.expiresAt > :date')
-                            ->setParameter('date', new DateTime())
-                            ->orderBy('j.expiresAt', 'DESC');
+                    ->where('j.expiresAt > :date')
+                    ->andWhere('j.activated = :activated')
+                    ->setParameter('date', new DateTime())
+                    ->setParameter('activated', true)
+                    ->orderBy('j.expiresAt', 'DESC');
+        
         if ($categoryId) {
             $queryBuilder->andWhere('j.category = :categoryId')
             ->setParameter('categoryId', $categoryId);
@@ -69,13 +72,14 @@ class JobRepository extends ServiceEntityRepository
     public function findActiveJob (int $jobId) : ?Job
     {
         return $this->createQueryBuilder('j')
-            ->select('j')
-            ->Where('j.id = :jobId')
-            ->andWhere('j.expiresAt > :date')
-            ->setParameter('jobId', $jobId)
-            ->setParameter('date',new DateTime())
-            ->getQuery()
-            ->getOneOrNullResult();
+                    ->where('j.id = :id')
+                    ->andWhere('j.expiresAt > :date')
+                    ->andWhere('j.activated = :activated')
+                    ->setParameter('id', $jobId)
+                    ->setParameter('date', new DateTime())
+                    ->setParameter('activated', true)
+                    ->getQuery()     
+                    ->getOneOrNullResult();
     }
 
     /**
@@ -86,34 +90,12 @@ class JobRepository extends ServiceEntityRepository
     public function getPaginatedActiveJobsByCategoryQuery (Category $category) : AbstractQuery
     {
         return $this->createQueryBuilder('j')
-            ->where('j.expiresAt > :date')
-            ->andWhere('j.category = :category')
-            ->setParameter('category',$category)
-            ->setParameter('date', new DateTime())
-            ->getQuery();
+                    ->where('j.category = :category')
+                    ->andWhere('j.expiresAt > :date')
+                    ->andWhere('j.activated = :activated')
+                    ->setParameter('category', $category)
+                    ->setParameter('date', new DateTime())
+                    ->setParameter('activated', true)
+                    ->getQuery();
     }
-//    /**
-//     * @return Job[] Returns an array of Job objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('j')
-//            ->andWhere('j.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('j.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Job
-//    {
-//        return $this->createQueryBuilder('j')
-//            ->andWhere('j.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

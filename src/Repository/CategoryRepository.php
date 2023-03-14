@@ -47,34 +47,12 @@ class CategoryRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
                     ->select('c')
-                    ->innerJoin('c.jobs','j')
+                    ->innerJoin('c.jobs', 'j')
                     ->where('j.expiresAt > :date')
-                    ->setParameter('date',new DateTime())
+                    ->andWhere('j.activated = :activated')
+                    ->setParameter('date', new DateTime())
+                    ->setParameter('activated', true)
                     ->getQuery()
                     ->getResult();
     }
-//    /**
-//     * @return Category[] Returns an array of Category objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Category
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

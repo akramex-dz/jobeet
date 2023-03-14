@@ -56,20 +56,12 @@ class Category
      */
     #[ORM\ManyToMany(targetEntity: Affiliate::class, mappedBy: 'categories')]
     private Collection|null $affiliates;
-
-    /*
-     * When a new entity instance is created and the ManyToMany or OneToMany relationship property is not initialized,
-     * an error may occur when trying to manipulate the uninitialized property.
-     * creating a constructor function, it ensure ensure that all the properties are properly initialized when a new instance is created, including ManyToMany and OneToMany relationships.
-     */
-
      
     public function __construct()
     {
         $this->affiliates = new ArrayCollection();
         $this->jobs = new ArrayCollection();
     }
-
 
     /**
      * @return int
@@ -171,9 +163,8 @@ class Category
      */
     public function getActiveJobs()
     {
-        return $this->jobs->filter(function(Job $job)
-        {
-            return $job->getExpiresAt()> new DateTime();
+        return $this->jobs->filter(function(Job $job) {
+            return $job->getExpiresAt() > new DateTime() && $job->isActivated();
         });
     }
     
