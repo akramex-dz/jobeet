@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Job;
 use App\Repository\CategoryRepository;
 use App\Form\JobType;
+use App\Repository\JobRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -155,15 +156,11 @@ class JobController extends AbstractController
      *
      * @return Response
      */
-    public function delete(Request $request, Job $job, EntityManagerInterface $em) : Response
+    public function delete(Job $job, EntityManagerInterface $em) : Response
     {
-        $form = $this->createDeleteForm($job);
-        $form->handleRequest($request);
-        // if ($form->isSubmitted() && $form->isValid()) {
-            $em->remove($job);
-            $em->flush();
-        // }
-
+        $em->remove($job);
+        $em->flush($job);        
+        $this->addFlash('success', 'job removed with successs');
         return $this->redirectToRoute('job.list');
     }
 
@@ -193,19 +190,11 @@ class JobController extends AbstractController
      *
      * @return Response
      */
-    public function publish(Request $request, Job $job, EntityManagerInterface $em) : Response
+    public function publish(Job $job, EntityManagerInterface $em) : Response
     {
-        $form = $this->createPublishForm($job);
-        $form->handleRequest($request);
-
-        // if ($form->isSubmitted() && $form->isValid()) {
-            $job->setActivated(true);
-
-            $em->flush();
-
-            $this->addFlash('notice', 'Your job was published');
-        // }
-
+        $job->setActivated(true);
+        $em->flush();
+        $this->addFlash('notice', 'Your job was published');
         return $this->redirectToRoute('job.preview', [
             'token' => $job->getToken(),
         ]);
