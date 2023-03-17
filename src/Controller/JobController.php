@@ -5,18 +5,15 @@ namespace App\Controller;
 use App\Entity\Job;
 use App\Repository\CategoryRepository;
 use App\Form\JobType;
-use App\Repository\JobRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Service\FileUploader;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * @Route("/")
@@ -27,6 +24,7 @@ class JobController extends AbstractController
      * Lists all job entities.
      * 
      * @Route ("", name="job.list", methods = "GET")
+     * 
      * 
      * @param CategoryRepository $categoryRepository
      * 

@@ -43,4 +43,6 @@ class CategoryController extends AbstractController
             'activeJobs'=>$activeJobs
         ]);
     }
+
+    
 }

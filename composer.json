@@ -24,6 +24,7 @@
         "symfony/framework-bundle": "5.4.*",
         "symfony/mime": "5.4.*",
         "symfony/runtime": "5.4.*",
+        "symfony/security-csrf": "5.4.*",
         "symfony/validator": "^5.4",
         "symfony/yaml": "5.4.*"
     },

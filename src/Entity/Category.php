@@ -47,7 +47,7 @@ class Category
      * one category has many job announcements
      * @var Collection<int, Job>
      */
-    #[ORM\OneToMany(targetEntity:Job::class, mappedBy: 'category')]
+    #[ORM\OneToMany(targetEntity:Job::class, mappedBy: 'category', cascade:['remove'])]
     private Collection $jobs;
 
     /**
