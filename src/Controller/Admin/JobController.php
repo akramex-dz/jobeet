@@ -70,7 +70,7 @@ class JobController extends AbstractController
             $em->persist($job);
             $em->flush();
         
-            $this->addFlash('success','Job created successfully');
+            $this->addFlash('notice','Job created successfully');
             return $this->redirectToRoute('admin.job.list');
         }
 
@@ -99,7 +99,7 @@ class JobController extends AbstractController
             $em->flush($job);
 
             $this->addFlash(
-               'success',
+               'notice',
                'The job was successfully added'
             );
             return $this->redirectToRoute('admin.job.list');
@@ -125,7 +125,7 @@ class JobController extends AbstractController
         $em->remove($job);
         $em->flush();
         
-        $this->addFlash('success', 'Job deleted !');
+        $this->addFlash('notice', 'Job deleted !');
         return $this->redirectToRoute('admin.job.list');
   }
 }

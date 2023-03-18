@@ -53,6 +53,10 @@ class CategoryController extends AbstractController
             $em->persist($category);
             $em->flush($category);
 
+            $this->addFlash(
+                'notice',
+                'Catgory Created !'
+             );
             return $this->redirectToRoute('admin.category.list');
         };
         
@@ -80,6 +84,10 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush($category);
 
+            $this->addFlash(
+               'notice',
+               'Catgory edited !'
+            );
             return $this->redirectToRoute('admin.category.list');
         }
 
@@ -105,7 +113,7 @@ class CategoryController extends AbstractController
             $em->remove($category);
             $em->flush($category);
 
-            $this->addFlash('success','The category was removed successfully');
+            $this->addFlash('notice','The category was removed successfully');
             return $this->redirectToRoute('admin.category.list');
     }
 

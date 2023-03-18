@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Job;
 use App\Entity\Category;
+use App\Service\JobHistoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,20 +28,22 @@ class CategoryController extends AbstractController
      * @param PaginatorInterface $paginator
      * @param int $page
      * @param EntityManagerInterface $em
+     * @param JobHistoryService $history
      * 
      * @return Response
      */
-    public function show(Category $category, PaginatorInterface $paginator, int $page, EntityManagerInterface $em): Response
+    public function show(Category $category, PaginatorInterface $paginator, int $page, EntityManagerInterface $em, JobHistoryService $history): Response
     {
         $activeJobs = $paginator->paginate(
             $em->getRepository(Job::class)->getPaginatedActiveJobsByCategoryQuery($category),
-            $page, //page
-            $this->getParameter('max_jobs_on_category') //number of elts   
+            $page,
+            $this->getParameter('max_jobs_on_category')    
         );
 
         return $this->render('category/show.html.twig',[
             'category'=>$category,
-            'activeJobs'=>$activeJobs
+            'activeJobs'=>$activeJobs,
+            'historyJobs'=> $history->getJobs(),
         ]);
     }
 

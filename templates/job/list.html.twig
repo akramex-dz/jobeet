@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% include 'job/_job_history.html.twig' with {'historyJobs': historyJobs} only %}
+
     {% for category in categories %}
         <h4>
             <a href="{{ path('category.show', {slug: category.slug}) }}">{{ category.name }}</a>

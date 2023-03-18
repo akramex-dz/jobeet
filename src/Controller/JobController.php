@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Service\FileUploader;
+use App\Service\JobHistoryService;
 
 /**
  * @Route("/")
@@ -27,14 +28,17 @@ class JobController extends AbstractController
      * 
      * 
      * @param CategoryRepository $categoryRepository
+     * @param JobHistoryService $jobHistory
      * 
      * @return Response 
      */
-    public function list(CategoryRepository $categoryRepository) : Response
+    public function list(CategoryRepository $categoryRepository, JobHistoryService $jobHistory) : Response
     {
         $categories = $categoryRepository->findWithActiveCategory();
+
         return $this->render('job/list.html.twig',[
             'categories' => $categories,
+            'historyJobs'=> $jobHistory->getJobs()
         ]);
     }
 
@@ -46,12 +50,14 @@ class JobController extends AbstractController
      * @Entity("job", expr="repository.findActiveJob(id)")
      * 
      * @param Job $job
+     * @param JobHistoryService $history
      * 
      * @return Response
      */ 
-    public function show(Job $job)  : Response
+    public function show(Job $job, JobHistoryService $history)  : Response
     {
-        dd($job->getToken());
+        $history->addJob($job);
+        
         return $this->render('job/show.html.twig',[
             'job'=>$job,
         ]);
