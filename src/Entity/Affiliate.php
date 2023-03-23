@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AffiliateRepository::class)]
 #[ORM\Table(name:"affiliates")]
+#[ORM\HasLifecycleCallbacks()]
 class Affiliate
 {
     #[ORM\Id]
