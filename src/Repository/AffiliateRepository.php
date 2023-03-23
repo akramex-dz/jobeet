@@ -39,6 +39,23 @@ class AffiliateRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @param string $token 
+     * 
+     * @return Affiliate|null
+     */
+    public function findOneActiveByToken(string $token) : ?Affiliate
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.active = :active')
+            ->andWhere('a.token = :token')
+            ->setParameter('active', true)
+            ->setParameter('token', $token)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
 //    /**
 //     * @return Affiliate[] Returns an array of Affiliate objects
 //     */

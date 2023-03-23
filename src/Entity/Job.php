@@ -6,11 +6,12 @@ use App\Repository\JobRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Category;
+use JMS\Serializer\Annotation as JMS;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 #[ORM\Table(name:"jobs")]
 #[ORM\HasLifecycleCallbacks()]
-
+#[JMS\ExclusionPolicy("all")]
 class Job
 {
     public const FULL_TIME_TYPE = 'full-time';
@@ -26,30 +27,46 @@ class Job
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[JMS\Expose()]
+    #[JMS\Type("int")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[JMS\Expose()]
+    #[JMS\Type("string")]
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
+    #[JMS\Expose()]
+    #[JMS\Type("string")]
     private ?string $company = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private mixed $logo = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[JMS\Expose()]
+    #[JMS\Type("string")]
     private ?string $url = null;
 
     #[ORM\Column(length: 255)]
+    #[JMS\Expose()]
+    #[JMS\Type("string")]
     private ?string $position = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[JMS\Expose()]
+    #[JMS\Type("string")]
     private ?string $location = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[JMS\Expose()]
+    #[JMS\Type("string")]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[JMS\Expose()]
+    #[JMS\Type("string")]
     private ?string $howToApply = null;
 
     #[ORM\Column(length: 255)]
@@ -65,6 +82,8 @@ class Job
     private ?string $email = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[JMS\Expose()]
+    #[JMS\Type("DateTime")]
     private ?\DateTimeInterface $expiresAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -393,5 +412,27 @@ class Job
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("logo_path")
+     *
+     * @return string|null
+     */
+    public function getLogoPath()
+    {
+        return $this->getLogo() ? 'uploads/jobs/' . $this->getLogo() : null;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("category_name")
+     *
+     * @return string
+     */
+    public function getCategoryName()
+    {
+        return $this->getCategory()->getName();
     }
 }
