@@ -26,10 +26,12 @@
         "symfony/flex": "^1.17|^2",
         "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4.*",
+        "symfony/mailer": "5.4.*",
         "symfony/mime": "5.4.*",
         "symfony/runtime": "5.4.*",
         "symfony/security-bundle": "5.4.*",
         "symfony/security-csrf": "5.4.*",
+        "symfony/sendgrid-mailer": "5.4.*",
         "symfony/swiftmailer-bundle": "*",
         "symfony/validator": "^5.4",
         "symfony/yaml": "5.4.*"
