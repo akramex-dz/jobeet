@@ -40,6 +40,11 @@
                     </div>
                 </li>
                 
+                <li>
+                    <div>
+                        {{ dump(app.request.locale) }}
+                    </div>
+                </li>
                 {% if app.user %}
                     <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                 {% endif %}

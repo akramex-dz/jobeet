@@ -1,6 +1,9 @@
 controllers:
     resource: ../../src/Controller/
     type: annotation
+    prefix:
+        en: ''
+        ar: '/ar'
 
 api_controllers:
     resource: ../../src/Controller/API/
