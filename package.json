@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "yarn": "^1.22.19"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.3.1"
   }
 }
