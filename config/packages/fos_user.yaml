@@ -3,7 +3,7 @@ fos_user:
     firewall_name: main
     user_class: App\Entity\User
     from_email:
-        address: "user@email.com"
+        address: "akramexleom@email.com"
         sender_name: "Sender Name"
     service:
-      mailer: swiftmailer.mailer.default
+      mailer: 'Symfony\Component\Mailer\MailerInterface'

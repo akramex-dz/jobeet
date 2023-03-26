@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="xqYQ02A" resname="Jobeet">
+        <source>Jobeet</source>
+        <target>Jobeet</target>
+      </trans-unit>
+      <trans-unit id="jC3twAE" resname="Admin Panel">
+        <source>Admin Panel</source>
+        <target>Admin Panel</target>
+      </trans-unit>
+      <trans-unit id="Y7SLIj4" resname="Affiliates">
+        <source>Affiliates</source>
+        <target>Affiliates</target>
+      </trans-unit>
+      <trans-unit id="e3cp8V6" resname="Post a Job">
+        <source>Post a Job</source>
+        <target>Post a Job</target>
+      </trans-unit>
+      <trans-unit id="0FJ_Sz1" resname="Logout">
+        <source>Logout</source>
+        <target>Logout</target>
+      </trans-unit>
+      <trans-unit id="SwvMlQO" resname="Jobeet - Your best job board">
+        <source>Jobeet - Your best job board</source>
+        <target>Jobeet - Your best job board</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

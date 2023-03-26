@@ -4,6 +4,7 @@ controllers:
     prefix:
         en: ''
         ar: '/ar'
+        fr: '/fr'
 
 api_controllers:
     resource: ../../src/Controller/API/

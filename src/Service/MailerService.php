@@ -25,7 +25,7 @@ public function __construct(MailerInterface $mailer)
 public function sendActivationEmail(Affiliate $affiliate)
 {
     $email = (new TemplatedEmail())
-            ->subject($affiliate->getUrl().'Jobeet affiliate account ACTIVATED !')
+            ->subject('Jobeet affiliate account ACTIVATED !')
             ->from('akramexleom@gmail.com')
             ->to($affiliate->getEmail())
             ->htmlTemplate('emails/affiliate_activation.html.twig')

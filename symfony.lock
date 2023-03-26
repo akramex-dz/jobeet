@@ -158,6 +158,15 @@
             "ref": "f8fd4ddb9b477510f8f4bce2b9c054ab428c0120"
         }
     },
+    "symfony/loco-translation-provider": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "c706da68af4ae956f45cffccf99a130e9484cb33"
+        }
+    },
     "symfony/mailer": {
         "version": "5.4",
         "recipe": {
@@ -212,20 +221,6 @@
             "version": "4.4",
             "ref": "b46e4f8f1adb2864f0aa9c0ff57aea3324a07199"
         }
-    },
-    "symfony/swiftmailer-bundle": {
-        "version": "3.5",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "2.5",
-            "ref": "f0b2fccdca2dfd97dc2fd5ad216d5e27c4f895ac"
-        },
-        "files": [
-            "config/packages/dev/swiftmailer.yaml",
-            "config/packages/swiftmailer.yaml",
-            "config/packages/test/swiftmailer.yaml"
-        ]
     },
     "symfony/translation": {
         "version": "5.4",
